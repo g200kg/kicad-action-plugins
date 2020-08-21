@@ -31,7 +31,7 @@ class BulkTextSize( pcbnew.ActionPlugin ):
         self.name = "Bulk Text Size"
         self.category = "Edit "
         self.description = "Bulk Text Size"
-        self.icon_file_name = os.path.join(os.path.dirname(__file__), 'bulk_text_size.png')
+        self.icon_file_name = os.path.join(os.path.dirname(__file__), 'action_menu_bulk_text_size.png')
 
 
     def Run( self ):
@@ -41,7 +41,7 @@ class BulkTextSize( pcbnew.ActionPlugin ):
                 wx.Dialog.__init__(self, parent, id=-1, title='Bulk Text Size', size=(500,250))
                 self.panel = wx.Panel(self)
                 icon=wx.EmptyIcon()
-                icon_source=wx.Image(os.path.join(os.path.dirname(__file__),'bulk_text_size.png'),wx.BITMAP_TYPE_PNG)
+                icon_source=wx.Image(os.path.join(os.path.dirname(__file__),'action_menu_bulk_text_size.png'),wx.BITMAP_TYPE_PNG)
                 icon.CopyFromBitmap(icon_source.ConvertToBitmap())
                 self.SetIcon(icon)
                 rh={}

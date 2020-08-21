@@ -58,7 +58,10 @@ strtab = {
 }
 
 def getstr(s,lang):
-    tab =strtab[lang]
+    if(lang not in s):
+        tab =strtab['default']
+    else:
+        tab =strtab[lang]
     return tab[s]
 
 def forcedel(fname):
@@ -68,6 +71,11 @@ def forcedel(fname):
 def forceren(src, dst):
     forcedel(dst)
     os.rename(src, dst)
+
+def refill(board):
+    filler = pcbnew.ZONE_FILLER(board)
+    zones = board.Zones()
+    filler.Fill(zones)
 
 def Exec():
     global zip_fname
@@ -82,6 +90,8 @@ def Exec():
     if not os.path.exists(gerber_dir):
         os.mkdir(gerber_dir)
     max_layer = board.GetCopperLayerCount() + 5
+
+    refill(board)
 
 # PLOT
     pc = pcbnew.PLOT_CONTROLLER(board)
@@ -146,14 +156,12 @@ class GerberZip( pcbnew.ActionPlugin ):
         self.name = "Make Gerber-Zip (Elecrow / FusionPCB style)"
         self.category = "Plot"
         self.description = "Make Gerber-Zip-file for Elecrow / FusionPCB"
-        self.icon_file_name = os.path.join(os.path.dirname(__file__), 'gerber_zip.png')
+        self.icon_file_name = os.path.join(os.path.dirname(__file__), 'action_menu_gerber_zip.png')
 
     def Run(self):
         class Dialog(wx.Dialog):
             def __init__(self, parent):
                 lang = wx.Locale.GetCanonicalName(wx.GetLocale())
-                if(lang != 'ja_JP'):
-                    lang = 'default'
                 wx.Dialog.__init__(self, parent, id=-1, title='Gerber-Zip')
                 self.panel = wx.Panel(self)
                 self.description = wx.StaticText(self.panel, wx.ID_ANY, getstr('DESC',lang), pos=(20,10))
@@ -170,11 +178,12 @@ class GerberZip( pcbnew.ActionPlugin ):
                 e.Skip()
                 self.Close()
             def OnExec(self,e):
+                lang = wx.Locale.GetCanonicalName(wx.GetLocale())
                 merge_npth = True if self.mergeNpth.GetValue() else False
                 use_aux_origin = True if self.useAuxOrigin.GetValue() else False
                 excellon_format = (EXCELLON_WRITER.DECIMAL_FORMAT, EXCELLON_WRITER.SUPPRESS_LEADING)[self.zeros.GetSelection()]
                 Exec()
-                wx.MessageBox(getstr('COMPLETE')%zip_fname, 'Gerber Zip', wx.OK|wx.ICON_INFORMATION)
+                wx.MessageBox(getstr('COMPLETE',lang)%zip_fname, 'Gerber Zip', wx.OK|wx.ICON_INFORMATION)
                 e.Skip()
         dialog = Dialog(None)
         dialog.Center()
