@@ -58,7 +58,7 @@ strtab = {
 }
 
 def getstr(s,lang):
-    if(lang not in s):
+    if(lang not in strtab):
         tab =strtab['default']
     else:
         tab =strtab[lang]
