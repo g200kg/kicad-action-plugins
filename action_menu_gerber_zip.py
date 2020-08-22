@@ -104,6 +104,7 @@ def Exec():
     po.SetLineWidth(FromMM(0.1))
     po.SetSubtractMaskFromSilk(True)
     po.SetUseAuxOrigin(use_aux_origin)
+    po.SetUseGerberX2format(False)
 
     for layer in layers:
         targetname = '%s/%s.%s' % (gerber_dir, board_basename, layer[1])
