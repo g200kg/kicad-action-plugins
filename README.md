@@ -7,6 +7,8 @@
 * これは KiCad の 5.x (初期版を除く) でサポートされたアクションスクリプトです。
 
 ## GerberZip
+### (GerberZip has been significantly updated to [GerberZipper](https://github.com/g200kg/kicad-gerberzipper))
+
 * Plots the Gerber-files and archives it in a Zip file.
 * The Zip-file is in a format that can be submitted to a board vendor Elecrow or FusionPCB.
 * Gerber-files and the zip-file  are created in the folder "Gerber" under the project.
